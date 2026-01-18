@@ -28,7 +28,7 @@ flutter:
   assets:
     - assets/images/bungalow/
     - assets/images/2storey/
-    - assets/images/hero_bg.png
+    - assets/images/hero_bg.jpg
     - assets/images/company_logo.png
     - assets/images/bungalow_main.jpg
     - assets/images/2storey_main.jpg
