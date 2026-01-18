@@ -30,17 +30,19 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Branding / Logo
-            InkWell(
-              onTap: () => viewModel.scrollController.animateTo(0,
-                  duration: const Duration(seconds: 1),
-                  curve: Curves.easeInOut),
-              child: Text(
-                'RSB Corp',
-                style: GoogleFonts.plusJakartaSans(
-                  color: textColor,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5,
+            Expanded(
+              child: InkWell(
+                onTap: () => viewModel.scrollController.animateTo(0,
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.easeInOut),
+                child: Text(
+                  'RSB Corp',
+                  style: GoogleFonts.plusJakartaSans(
+                    color: textColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -0.5,
+                  ),
                 ),
               ),
             ),
