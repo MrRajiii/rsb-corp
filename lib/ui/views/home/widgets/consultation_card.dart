@@ -40,11 +40,13 @@ class ConsultationCard extends StatelessWidget {
               const SizedBox(height: 32),
 
               _inputLabel("FULL NAME"),
-              _textField("John Doe", Icons.person_outline),
+              _textField(
+                  "John Doe", Icons.person_outline, viewModel.nameController),
               const SizedBox(height: 20),
 
               _inputLabel("EMAIL ADDRESS"),
-              _textField("john@example.com", Icons.mail_outline),
+              _textField("john@example.com", Icons.mail_outline,
+                  viewModel.emailController),
               const SizedBox(height: 20),
 
               // NEW: Row for Type and Budget
@@ -55,7 +57,8 @@ class ConsultationCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _inputLabel("TYPE"),
-                        _textField("Penthouse", null), // No icon as per image
+                        _textField("Penthouse", null,
+                            viewModel.typeController), // No icon as per image
                       ],
                     ),
                   ),
@@ -65,7 +68,8 @@ class ConsultationCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _inputLabel("BUDGET"),
-                        _textField("\$1M - \$5M", null),
+                        _textField(
+                            "\$1M - \$5M", null, viewModel.budgetController),
                       ],
                     ),
                   ),
@@ -77,18 +81,24 @@ class ConsultationCard extends StatelessWidget {
                 width: double.infinity,
                 height: 60,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: viewModel.isBusy ? null : viewModel.submitForm,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0052CC),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                     elevation: 0,
                   ),
-                  child: const Text("Inquire now",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16)),
+                  child: viewModel.isBusy
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                              color: Colors.white, strokeWidth: 2))
+                      : const Text("Inquire now",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16)),
                 ),
               ),
               const SizedBox(height: 16),
@@ -121,7 +131,10 @@ class ConsultationCard extends StatelessWidget {
                 letterSpacing: 0.5)),
       );
 
-  Widget _textField(String hint, IconData? icon) => TextField(
+  Widget _textField(
+          String hint, IconData? icon, TextEditingController controller) =>
+      TextField(
+        controller: controller,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: const TextStyle(color: Colors.black26, fontSize: 14),

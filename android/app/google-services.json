@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1056621198278",
+    "project_id": "rsb-corp",
+    "storage_bucket": "rsb-corp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056621198278:android:58de552113580075e110c7",
+        "android_client_info": {
+          "package_name": "com.example.rsbweb_v1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZFuvYUAl5btTQmjmggwaGRj9oi_3nKTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

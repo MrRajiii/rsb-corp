@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -8,7 +9,8 @@ class HomeViewModel extends BaseViewModel {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
-
+  final TextEditingController typeController = TextEditingController();
+  final TextEditingController budgetController = TextEditingController();
   // Animation & Header State
   bool _isScrolled = false;
   bool get isScrolled => _isScrolled;
@@ -72,19 +74,34 @@ class HomeViewModel extends BaseViewModel {
     }
   }
 
-  void submitForm() {
-    if (nameController.text.isEmpty || emailController.text.isEmpty) {
+  Future<void> submitForm() async {
+    if (nameController.text.trim().isEmpty ||
+        emailController.text.trim().isEmpty) {
       return;
     }
+
     setBusy(true);
-    // Simulate API Call
-    Future.delayed(const Duration(seconds: 2), () {
-      setBusy(false);
+
+    try {
+      await FirebaseFirestore.instance.collection('consultations').add({
+        'name': nameController.text.trim(),
+        'email': emailController.text.trim(),
+        'type': typeController.text.trim(),
+        'budget': budgetController.text.trim(),
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+
       nameController.clear();
       emailController.clear();
+      typeController.clear();
+      budgetController.clear();
       messageController.clear();
+    } catch (e) {
+      debugPrint("Error saving to Firebase: $e");
+    } finally {
+      setBusy(false);
       notifyListeners();
-    });
+    }
   }
 
   // --- GALLERY DATA PROVIDER ---
@@ -113,6 +130,8 @@ class HomeViewModel extends BaseViewModel {
     emailController.dispose();
     messageController.dispose();
     scrollController.dispose();
+    typeController.dispose();
+    budgetController.dispose();
     super.dispose();
   }
 }
