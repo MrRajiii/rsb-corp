@@ -72,7 +72,7 @@ class AboutSection extends ViewModelWidget<HomeViewModel> {
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      "Crafting structures that define the skyline.",
+                      "RSB Corporation is built on a simple belief:",
                       textAlign: isMobile ? TextAlign.center : TextAlign.start,
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: isSmallMobile ? 28 : 42,
@@ -82,7 +82,7 @@ class AboutSection extends ViewModelWidget<HomeViewModel> {
                     ),
                     const SizedBox(height: 25),
                     Text(
-                      "RSB Corp delivers excellence in modern architecture. We believe a building is more than concrete—it is a sanctuary designed for your lifestyle.",
+                      "People come first. We are a customer-centered real estate company dedicated to creating homes and spaces that improve lives, strengthen communities, and offer longiterm value. With focus on transparency, trust, and ethical practices, we provide real estate solutions that feel honest, humane, and truly beneficial for our clients. Whether it's buying, selling, investing, or building, our team ensures a smooth and stress-free experience from start to finish.\n\nAt RSB Corporation, we combine modern market knowledge with genuine human care. Every project we undertake is guided by quality craftsmanship, sustainable planning, and a commitment to delivering properties that families and businesses can proudly call their own.",
                       textAlign: isMobile ? TextAlign.center : TextAlign.start,
                       style: const TextStyle(
                         fontSize: 16,

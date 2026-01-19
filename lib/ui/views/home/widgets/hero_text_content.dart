@@ -20,7 +20,7 @@ class HeroTextContent extends StatelessWidget {
         _buildBadge(),
         const SizedBox(height: 32),
         Text(
-          "Find Your\nMasterpiece\nDwelling.",
+          "Real Estate\nStructures and\nBuilders Co.",
           textAlign: isMobile ? TextAlign.center : TextAlign.left,
           style: GoogleFonts.plusJakartaSans(
             fontSize: isMobile ? 48 : 84,
