@@ -42,7 +42,7 @@ class HeroTextContent extends StatelessWidget {
         const SizedBox(height: 40),
         _buildHeroButtons(),
         const SizedBox(height: 60),
-        _buildStats(),
+        //_buildStats(),
       ],
     );
   }
@@ -80,7 +80,7 @@ class HeroTextContent extends StatelessWidget {
       alignment: isMobile ? WrapAlignment.center : WrapAlignment.start,
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => viewModel.scrollToSection(viewModel.modelsKey),
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             foregroundColor: Colors.black,
@@ -93,7 +93,7 @@ class HeroTextContent extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () => viewModel.scrollToSection(viewModel.contactKey),
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
@@ -102,7 +102,7 @@ class HeroTextContent extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
           child: const Text(
-            "Virtual Tour",
+            "Get Started",
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
@@ -112,32 +112,32 @@ class HeroTextContent extends StatelessWidget {
     );
   }
 
-  Widget _buildStats() {
-    return Wrap(
-      spacing: 40,
-      runSpacing: 20,
-      alignment: isMobile ? WrapAlignment.center : WrapAlignment.start,
-      children: [
-        _statItem("12k+", "Premium Houses"),
-        _statItem("5k+", "Happy Families"),
-        _statItem("20+", "Years Experience"),
-      ],
-    );
-  }
+  //Widget _buildStats() {
+  //return Wrap(
+  //spacing: 40,
+  //runSpacing: 20,
+  //alignment: isMobile ? WrapAlignment.center : WrapAlignment.start,
+  //children: [
+  //_statItem("12k+", "Premium Houses"),
+  //_statItem("5k+", "Happy Families"),
+  //_statItem("20+", "Years Experience"),
+  //],
+  //);
+  //}
 
-  Widget _statItem(String value, String label) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(value,
-            style: GoogleFonts.plusJakartaSans(
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
-                color: Colors.white)),
-        Text(label,
-            style: GoogleFonts.plusJakartaSans(
-                fontSize: 14, color: Colors.white70)),
-      ],
-    );
-  }
+  //Widget _statItem(String value, String label) {
+  //return Column(
+  //crossAxisAlignment: CrossAxisAlignment.start,
+  //children: [
+  //Text(value,
+  //style: GoogleFonts.plusJakartaSans(
+  //fontSize: 24,
+  //fontWeight: FontWeight.w800,
+  //color: Colors.white)),
+  //Text(label,
+  //style: GoogleFonts.plusJakartaSans(
+  //fontSize: 14, color: Colors.white70)),
+  //],
+  //);
+  //}
 }

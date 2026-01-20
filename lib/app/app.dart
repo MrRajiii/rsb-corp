@@ -1,16 +1,27 @@
 import 'package:rsbweb_v1/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:rsbweb_v1/ui/dialogs/info_alert/info_alert_dialog.dart';
+import 'package:rsbweb_v1/ui/dialogs/inquiry/inquiry_dialog.dart';
 import 'package:rsbweb_v1/ui/views/home/home_view.dart';
 import 'package:rsbweb_v1/ui/views/startup/startup_view.dart';
+import 'package:rsbweb_v1/ui/views/two_storey/two_storey_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:rsbweb_v1/ui/views/bungalow/bungalow_view.dart';
+import 'package:rsbweb_v1/ui/views/constructionworks/constructionworks_view.dart';
+import 'package:rsbweb_v1/ui/views/interiordesign/interiordesign_view.dart';
+import 'package:rsbweb_v1/ui/views/finishedprojects/finishedprojects_view.dart';
 // @stacked-import
 
 @StackedApp(
   routes: [
     MaterialRoute(page: HomeView),
     MaterialRoute(page: StartupView),
-    // @stacked-route
+    MaterialRoute(page: BungalowView),
+    MaterialRoute(page: TwoStoreyView),
+    MaterialRoute(page: ConstructionWorksView),
+    MaterialRoute(page: InteriorDesignView),
+    MaterialRoute(page: FinishedProjectsView),
+// @stacked-route
   ],
   dependencies: [
     LazySingleton(classType: BottomSheetService),
@@ -24,6 +35,7 @@ import 'package:stacked_services/stacked_services.dart';
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
+    StackedDialog(classType: InquiryDialog),
     // @stacked-dialog
   ],
 )

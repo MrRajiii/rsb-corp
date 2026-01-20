@@ -41,8 +41,8 @@ class AboutSection extends ViewModelWidget<HomeViewModel> {
                 width: isMobile ? double.infinity : width * 0.4,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
-                  child: Image.network(
-                    'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80',
+                  child: Image.asset(
+                    'assets/images/about_img.jpg',
                     fit: BoxFit.cover,
                     // Slightly shorter image on mobile to avoid pushing text too far down
                     height: isMobile ? 300 : 500,
