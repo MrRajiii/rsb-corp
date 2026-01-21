@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // 1. Added Import
-import 'firebase_options.dart'; // 2. Added Generated Options Import
-import 'package:rsbweb_v1/app/app.bottomsheets.dart';
-import 'package:rsbweb_v1/app/app.dialogs.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:rsbweb_v1/app/app.locator.dart';
 import 'package:rsbweb_v1/app/app.router.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:rsbweb_v1/app/app.bottomsheets.dart';
+import 'package:rsbweb_v1/app/app.dialogs.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 3. Initialize Firebase before anything else
+  // 2. This removes the "/#/" from the browser URL bar
+  usePathUrlStrategy();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -27,10 +30,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'RSB Corp',
       initialRoute: Routes.startupView,
       onGenerateRoute: StackedRouter().onGenerateRoute,
       navigatorKey: StackedService.navigatorKey,
       navigatorObservers: [StackedService.routeObserver],
+      debugShowCheckedModeBanner: false,
     );
   }
 }

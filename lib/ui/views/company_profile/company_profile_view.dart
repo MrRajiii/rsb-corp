@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:rsbweb_v1/app/app.router.dart';
 import 'package:rsbweb_v1/ui/common/app_colors.dart';
 import 'package:rsbweb_v1/ui/views/company_profile/company_lineup_widget.dart';
 import 'package:stacked/stacked.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'company_profile_viewmodel.dart';
-// Import your new widget file
 
 class CompanyProfileView extends StackedView<CompanyProfileViewModel> {
   const CompanyProfileView({super.key});
@@ -16,14 +16,12 @@ class CompanyProfileView extends StackedView<CompanyProfileViewModel> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Stack(
-          // Using Stack to keep the button pinned
           children: [
             // 1. Scrollable Content
             SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Added space at the top so the header doesn't hide under the sticky button
                   const SizedBox(height: 60),
                   const _LeadershipHeader(),
                   ExecutiveGrid(viewModel: viewModel),
@@ -38,13 +36,21 @@ class CompanyProfileView extends StackedView<CompanyProfileViewModel> {
               left: 0,
               right: 0,
               child: Container(
-                // Optional: add a slight gradient or solid color if text becomes hard to read over images
                 color: Colors.white.withOpacity(0.9),
                 padding: const EdgeInsets.only(left: 8.0, top: 10, bottom: 10),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: TextButton.icon(
-                    onPressed: viewModel.goBack,
+                    onPressed: () {
+                      // REFRESH FIX LOGIC:
+                      // If we can pop (normal navigation), do it.
+                      // If we cannot (page was refreshed), force go back to Home.
+                      if (Navigator.of(context).canPop()) {
+                        viewModel.navigationService.back();
+                      } else {
+                        viewModel.navigationService.replaceWithHomeView();
+                      }
+                    },
                     icon: const Icon(
                       Icons.arrow_back,
                       size: 20,
@@ -73,6 +79,7 @@ class CompanyProfileView extends StackedView<CompanyProfileViewModel> {
       CompanyProfileViewModel();
 }
 
+// Keeping your original Header widget here...
 class _LeadershipHeader extends StatelessWidget {
   const _LeadershipHeader();
 
@@ -80,8 +87,7 @@ class _LeadershipHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return SizedBox(
-      width: double
-          .infinity, // Ensures the column centers relative to screen width
+      width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.only(top: 60, bottom: 60),
         child: Column(
