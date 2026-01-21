@@ -1,15 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rsbweb_v1/app/app.dialogs.dart';
+import 'package:rsbweb_v1/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import '../../../app/app.locator.dart';
 
 class BungalowViewModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
+  final navigationService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
 
-  void goBack() => _navigationService.back();
+  void handleBack(bool canPop) {
+    if (canPop) {
+      navigationService.back();
+    } else {
+      navigationService.replaceWithHomeView();
+    }
+  }
 
   // --- INQUIRE NOW LOGIC ---
   Future<void> onInquireTap() async {

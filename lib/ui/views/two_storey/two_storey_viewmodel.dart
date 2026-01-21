@@ -1,16 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rsbweb_v1/app/app.dialogs.dart'; // Ensure this is imported
+import 'package:rsbweb_v1/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import '../../../app/app.locator.dart';
 
 class TwoStoreyViewModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
+  final navigationService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
 
-  void goBack() {
-    _navigationService.back();
+  void handleBack(bool canPop) {
+    if (canPop) {
+      navigationService.back();
+    } else {
+      // If the user refreshed, the stack is gone, so force return to Home
+      navigationService.replaceWithHomeView();
+    }
   }
 
   // --- INQUIRE NOW LOGIC ---

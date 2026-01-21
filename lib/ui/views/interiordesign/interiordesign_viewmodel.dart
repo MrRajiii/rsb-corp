@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rsbweb_v1/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import '../../../app/app.locator.dart';
 
 class InteriorDesignViewModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
+  final navigationService = locator<NavigationService>();
 
-  void goBack() {
-    _navigationService.back();
+  void handleBack(bool canPop) {
+    if (canPop) {
+      navigationService.back();
+    } else {
+      // If refreshed, the stack is empty, so force redirect to Home
+      navigationService.replaceWithHomeView();
+    }
   }
 
   // Simple Lightbox effect to view images clearly

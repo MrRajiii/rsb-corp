@@ -12,133 +12,142 @@ class FinishedProjectsView extends StackedView<FinishedProjectsViewModel> {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width < 1100;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // 1. MAIN SCROLLABLE CONTENT
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.center, // Centered the header
-                children: [
-                  const SizedBox(
-                      height: 80), // Space for the sticky back button
+    // 1. Wrap the Scaffold in PopScope to catch browser back/gestures
+    return PopScope(
+      canPop: false, // Prevents default pop to handle refresh cases
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        // Calls the safe back logic from your ViewModel
+        viewModel.handleBack(Navigator.of(context).canPop());
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8FAFC),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              // MAIN SCROLLABLE CONTENT
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 80),
 
-                  // HEADER SECTION
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isMobile ? 24 : width * 0.08,
-                      vertical: 40,
-                    ),
-                    child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.center, // Center text
-                      children: [
-                        Text(
-                          "OUR FINISHED PROJECTS",
-                          style: GoogleFonts.plusJakartaSans(
-                            color: const Color(0xFF2563EB),
-                            fontWeight: FontWeight.w800,
-                            fontSize: 12,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          "Excellence in Every Detail",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: isMobile ? 32 : 42,
-                            fontWeight: FontWeight.w800,
-                            color: const Color(0xFF0F172A),
-                            height: 1.1,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Container(
-                          constraints: const BoxConstraints(maxWidth: 700),
-                          child: Text(
-                            "From vision to reality. Explore our collection of successfully completed residential homes across the region.",
-                            textAlign: TextAlign.center,
+                    // HEADER SECTION
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isMobile ? 24 : width * 0.08,
+                        vertical: 40,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "OUR FINISHED PROJECTS",
                             style: GoogleFonts.plusJakartaSans(
-                              color: const Color(0xFF64748B),
-                              fontSize: 16,
-                              height: 1.6,
+                              color: const Color(0xFF2563EB),
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12,
+                              letterSpacing: 1.2,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // CLICKABLE GRID SECTION
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isMobile ? 24 : width * 0.08,
-                    ),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: isMobile ? 1 : 3,
-                        crossAxisSpacing: 24,
-                        mainAxisSpacing: 24,
-                        childAspectRatio: isMobile ? 1.2 : 0.85,
-                      ),
-                      itemCount: viewModel.projects.length,
-                      itemBuilder: (context, index) {
-                        final project = viewModel.projects[index];
-                        return InkWell(
-                          borderRadius: BorderRadius.circular(16),
-                          onTap: () => viewModel.goToProjectDetail(project),
-                          child: _ProjectCard(
-                            image: project['images'][0],
-                            location: project['location']!,
-                            owner: project['owner']!,
-                            imageCount: (project['images'] as List).length,
+                          const SizedBox(height: 16),
+                          Text(
+                            "Excellence in Every Detail",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: isMobile ? 32 : 42,
+                              fontWeight: FontWeight.w800,
+                              color: const Color(0xFF0F172A),
+                              height: 1.1,
+                            ),
                           ),
-                        );
-                      },
+                          const SizedBox(height: 16),
+                          Container(
+                            constraints: const BoxConstraints(maxWidth: 700),
+                            child: Text(
+                              "From vision to reality. Explore our collection of successfully completed residential homes across the region.",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.plusJakartaSans(
+                                color: const Color(0xFF64748B),
+                                fontSize: 16,
+                                height: 1.6,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 100),
-                ],
-              ),
-            ),
 
-            // 2. STICKY BACK BUTTON (Floating over content)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: const Color(0xFFF8FAFC)
-                    .withOpacity(0.9), // Matches background
-                padding: const EdgeInsets.only(left: 8.0, top: 10, bottom: 10),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton.icon(
-                    onPressed: viewModel.goBack,
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      size: 20,
-                      color: Color(0xFF64748B),
+                    // CLICKABLE GRID SECTION
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isMobile ? 24 : width * 0.08,
+                      ),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: isMobile ? 1 : 3,
+                          crossAxisSpacing: 24,
+                          mainAxisSpacing: 24,
+                          childAspectRatio: isMobile ? 1.2 : 0.85,
+                        ),
+                        itemCount: viewModel.projects.length,
+                        itemBuilder: (context, index) {
+                          final project = viewModel.projects[index];
+                          return InkWell(
+                            borderRadius: BorderRadius.circular(16),
+                            onTap: () => viewModel.goToProjectDetail(project),
+                            child: _ProjectCard(
+                              image: project['images'][0],
+                              location: project['location']!,
+                              owner: project['owner']!,
+                              imageCount: (project['images'] as List).length,
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                    label: Text(
-                      "Back",
-                      style: GoogleFonts.plusJakartaSans(
-                        color: const Color(0xFF64748B),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                    const SizedBox(height: 100),
+                  ],
+                ),
+              ),
+
+              // 2. STICKY BACK BUTTON
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: const Color(0xFFF8FAFC).withOpacity(0.9),
+                  padding:
+                      const EdgeInsets.only(left: 8.0, top: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      onPressed: () {
+                        // 3. Updated to use the safe back logic
+                        viewModel.handleBack(Navigator.of(context).canPop());
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
+                      label: Text(
+                        "Back",
+                        style: GoogleFonts.plusJakartaSans(
+                          color: const Color(0xFF64748B),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

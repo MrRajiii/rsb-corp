@@ -4,9 +4,16 @@ import 'package:stacked_services/stacked_services.dart';
 import '../../../app/app.locator.dart';
 
 class FinishedProjectsViewModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
+  final navigationService = locator<NavigationService>();
 
-  void goBack() => _navigationService.back();
+  void handleBack(bool canPop) {
+    if (canPop) {
+      navigationService.back();
+    } else {
+      // Fallback for hard refresh: Go back to Home
+      navigationService.replaceWithHomeView();
+    }
+  }
 
   // Future-proofing: You can eventually fetch this list from Firebase
   final List<Map<String, dynamic>> projects = [
@@ -33,6 +40,6 @@ class FinishedProjectsViewModel extends BaseViewModel {
     // Add more projects following this same List<String> format for 'images'
   ];
   void goToProjectDetail(Map<String, dynamic> project) {
-    _navigationService.navigateToProjectDetailView(project: project);
+    navigationService.navigateToProjectDetailView(project: project);
   }
 }
