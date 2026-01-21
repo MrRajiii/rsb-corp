@@ -59,6 +59,16 @@ class ConstructionWorksView extends StackedView<ConstructionWorksViewModel> {
           children: [
             // --- HEADER SECTION ---
             Text(
+              "BEHIND THE SCENES",
+              style: GoogleFonts.plusJakartaSans(
+                color: const Color(0xFF2563EB),
+                fontWeight: FontWeight.w800,
+                fontSize: 12,
+                letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
               "Construction Works",
               textAlign: TextAlign.center,
               style: GoogleFonts.plusJakartaSans(

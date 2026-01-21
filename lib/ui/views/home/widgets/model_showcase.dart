@@ -41,32 +41,26 @@ class ModelShowcase extends ViewModelWidget<HomeViewModel> {
           ),
           const SizedBox(height: 48),
 
-          // --- RESPONSIVE TAB BAR ---
+          // --- UPDATED RESPONSIVE TAB BAR ---
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
+              color: const Color(0xFFF1F5F9), // Light grey track
               borderRadius: BorderRadius.circular(16),
             ),
-            // Limits width on desktop so it stays a "pill" shape in the center
             constraints: const BoxConstraints(maxWidth: 1000),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              // NeverScrollable on desktop keeps it from feeling "wobbly"
               physics: isMobile
                   ? const BouncingScrollPhysics()
                   : const NeverScrollableScrollPhysics(),
               child: Row(
-                // Centers content on Desktop, starts at left on Mobile
-                mainAxisAlignment: isMobile
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: isMobile ? MainAxisSize.max : MainAxisSize.min,
                 children: [
                   _CategoryTab(
                     label: "Bungalow",
                     icon: Icons.home_outlined,
-                    isActive: true,
                     onTap: viewModel.navigateToBungalow,
                   ),
                   _CategoryTab(
@@ -99,57 +93,73 @@ class ModelShowcase extends ViewModelWidget<HomeViewModel> {
   }
 }
 
-class _CategoryTab extends StatelessWidget {
+class _CategoryTab extends StatefulWidget {
   final String label;
   final IconData icon;
-  final bool isActive;
   final VoidCallback onTap;
 
   const _CategoryTab({
     required this.label,
     required this.icon,
     required this.onTap,
-    this.isActive = false,
   });
+
+  @override
+  State<_CategoryTab> createState() => _CategoryTabState();
+}
+
+class _CategoryTabState extends State<_CategoryTab> {
+  bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          decoration: BoxDecoration(
-            color: isActive ? Colors.white : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: isActive
-                ? [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.05), blurRadius: 4)
-                  ]
-                : null,
-          ),
-          child: Row(
-            children: [
-              Icon(icon,
-                  size: 20,
-                  color: isActive
-                      ? const Color(0xFF2563EB)
-                      : const Color(0xFF64748B)),
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: isActive
-                      ? const Color(0xFF2563EB)
-                      : const Color(0xFF64748B),
-                ),
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: InkWell(
+          onTap: widget.onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              // All tabs are now White to match the Bungalow style
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                // Border changes color on hover for better UX
+                color:
+                    _isHovered ? const Color(0xFF2563EB) : Colors.transparent,
+                width: 1,
               ),
-            ],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(_isHovered ? 0.1 : 0.05),
+                  blurRadius: _isHovered ? 8 : 4,
+                  offset: const Offset(0, 2),
+                )
+              ],
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  widget.icon,
+                  size: 20,
+                  color: const Color(0xFF2563EB), // All icons now Blue
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  widget.label,
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF2563EB), // All text now Blue
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

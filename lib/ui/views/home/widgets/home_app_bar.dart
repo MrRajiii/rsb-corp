@@ -64,6 +64,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                           curve: Curves.easeInOut)),
                   _navItem("About", textColor,
                       () => viewModel.scrollToSection(viewModel.aboutKey)),
+                  _navItem("Company Profile", textColor,
+                      () => viewModel.navigateToCompanyProfile()),
                   _navItem("Contact", textColor,
                       () => viewModel.scrollToSection(viewModel.contactKey)),
                 ],

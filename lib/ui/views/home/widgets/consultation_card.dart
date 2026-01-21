@@ -69,7 +69,7 @@ class ConsultationCard extends StatelessWidget {
                       children: [
                         _inputLabel("BUDGET"),
                         _textField(
-                            "\$1M - \$5M", null, viewModel.budgetController),
+                            "\₱1M - \₱5M", null, viewModel.budgetController),
                       ],
                     ),
                   ),

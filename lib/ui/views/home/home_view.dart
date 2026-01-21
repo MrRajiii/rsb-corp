@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rsbweb_v1/ui/common/app_colors.dart';
+import 'package:rsbweb_v1/ui/views/home/widgets/common_footer.dart';
+import 'package:rsbweb_v1/ui/views/home/widgets/location_section.dart';
 import 'package:stacked/stacked.dart'; // Ensure this is imported for apex colors
 import 'home_viewmodel.dart';
 import 'widgets/home_app_bar.dart';
@@ -23,13 +25,20 @@ class HomeView extends StackedView<HomeViewModel> {
 
       body: SingleChildScrollView(
         controller: viewModel.scrollController,
-        child: const Column(
+        child: Column(
           children: [
-            HeroSection(),
-            AboutSection(),
-            ModelShowcase(),
-            ContactSection(),
-            _Footer(),
+            const HeroSection(),
+            AboutSection(key: viewModel.aboutKey),
+            ModelShowcase(
+              key: viewModel.modelsKey,
+            ),
+            LocationSection(
+              key: viewModel.locationKey,
+            ),
+            ContactSection(
+              key: viewModel.contactKey,
+            ),
+            CommonFooter(viewModel: viewModel),
           ],
         ),
       ),
@@ -102,20 +111,5 @@ class _MobileDrawer extends StatelessWidget {
         onTap(); // Then scroll
       },
     );
-  }
-}
-
-// 3. UPDATED: Responsive Footer
-class _Footer extends StatelessWidget {
-  const _Footer();
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 40),
-        color: const Color(0xFF1D212B),
-        child: const Center(
-            child: Text("© 2026 RSB Corp. Built with Excellence.",
-                style: TextStyle(color: Colors.white24, letterSpacing: 1.2))));
   }
 }

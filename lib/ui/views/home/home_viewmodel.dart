@@ -33,6 +33,7 @@ class HomeViewModel extends BaseViewModel {
   // GlobalKeys for Smooth Scrolling
   final GlobalKey aboutKey = GlobalKey();
   final GlobalKey modelsKey = GlobalKey();
+  final GlobalKey locationKey = GlobalKey();
   final GlobalKey contactKey = GlobalKey();
 
   HomeViewModel() {
@@ -57,6 +58,10 @@ class HomeViewModel extends BaseViewModel {
   // Also add one for Interior while we're at it
   void navigateToInterior() {
     _navigationService.navigateToInteriorDesignView();
+  }
+
+  void navigateToCompanyProfile() {
+    _navigationService.navigateToCompanyProfileView();
   }
 
   void _onScroll() {

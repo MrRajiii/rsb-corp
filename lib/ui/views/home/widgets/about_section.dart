@@ -25,6 +25,10 @@ class AboutSection extends ViewModelWidget<HomeViewModel> {
         padding: EdgeInsets.only(top: isVisible ? 0 : 60),
         child: Container(
           key: viewModel.aboutKey,
+          width: double.infinity, // Ensures background color spans full width
+          decoration: const BoxDecoration(
+            color: Color(0xFFF8FAFC), // Modern light slate background
+          ),
           // Dynamic padding: less vertical space on mobile to keep the scroll feel tight
           padding: EdgeInsets.symmetric(
               vertical: isMobile ? 60 : 120,
@@ -82,7 +86,7 @@ class AboutSection extends ViewModelWidget<HomeViewModel> {
                     ),
                     const SizedBox(height: 25),
                     Text(
-                      "People come first. We are a customer-centered real estate company dedicated to creating homes and spaces that improve lives, strengthen communities, and offer longiterm value. With focus on transparency, trust, and ethical practices, we provide real estate solutions that feel honest, humane, and truly beneficial for our clients. Whether it's buying, selling, investing, or building, our team ensures a smooth and stress-free experience from start to finish.\n\nAt RSB Corporation, we combine modern market knowledge with genuine human care. Every project we undertake is guided by quality craftsmanship, sustainable planning, and a commitment to delivering properties that families and businesses can proudly call their own.",
+                      "People come first. We are a customer-centered real estate company dedicated to creating homes and spaces that improve lives, strengthen communities, and offer long-term value. With focus on transparency, trust, and ethical practices, we provide real estate solutions that feel honest, humane, and truly beneficial for our clients. Whether it's buying, selling, investing, or building, our team ensures a smooth and stress-free experience from start to finish.\n\nAt RSB Corporation, we combine modern market knowledge with genuine human care. Every project we undertake is guided by quality craftsmanship, sustainable planning, and a commitment to delivering properties that families and businesses can proudly call their own.",
                       textAlign: isMobile ? TextAlign.center : TextAlign.start,
                       style: const TextStyle(
                         fontSize: 16,

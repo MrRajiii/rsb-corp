@@ -71,6 +71,16 @@ class InteriorDesignView extends StackedView<InteriorDesignViewModel> {
           children: [
             // --- HEADER SECTION ---
             Text(
+              "OUR DESIGNS",
+              style: GoogleFonts.plusJakartaSans(
+                color: const Color(0xFF2563EB),
+                fontWeight: FontWeight.w800,
+                fontSize: 12,
+                letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
               "Interior Designs",
               textAlign: TextAlign.center,
               style: GoogleFonts.plusJakartaSans(
