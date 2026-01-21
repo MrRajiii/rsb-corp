@@ -11,46 +11,113 @@ class ExecutiveGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final executives = [
       {
-        "name": "Randy Bernardez",
+        "name": "Randy Bernandez",
         "tag": "Chairman / Founder",
-        "imagePath": "assets/images/leader1.jpg",
+        "imagePath": "assets/images/comp_prof_img/chairman_founder.jpg",
         "bio": "Bio",
         "fullBio": "Full bio goes here"
       },
       {
-        "name": "Alex Xander Florendo",
+        "name": "Alexander Florendo",
         "tag": "CEO",
-        "imagePath": "assets/images/leader2.jpg",
+        "imagePath": "assets/images/comp_prof_img/ceo.jpg",
         "bio": "Bio",
         "fullBio": "Full bio goes here"
       },
       {
         "name": "Kim Aquino",
         "tag": "President / COO",
-        "imagePath": "assets/images/leader3.jpg",
+        "imagePath": "assets/images/comp_prof_img/president_coo.jpg",
         "bio": "Bio",
         "fullBio": "Full bio goes here"
       },
       {
         "name": "Nicole Ortega",
         "tag": "CFO",
-        "imagePath": "assets/images/leader3.jpg",
+        "imagePath": "assets/images/comp_prof_img/cfo.png",
+        "bio": "Bio",
+        "fullBio": "Full bio goes here"
+      },
+      {
+        "name": "Glydel Cayabyab",
+        "tag": "Corporate Secretary",
+        "imagePath": "assets/images/comp_prof_img/secretary.jpg",
+        "bio": "Bio",
+        "fullBio": "Full bio goes here"
+      },
+      {
+        "name": "Rajian Hero Castronuevo",
+        "tag": "CTO",
+        "imagePath": "assets/images/comp_prof_img/cto.png",
+        "bio": "Bio",
+        "fullBio": "Full bio goes here"
+      },
+      {
+        "name": "Leeal Bernandez",
+        "tag": "Corporate Auditor",
+        "imagePath": "assets/images/comp_prof_img/auditor.jpg",
+        "bio": "Bio",
+        "fullBio": "Full bio goes here"
+      },
+      {
+        "name": "Jared Reclosado",
+        "tag": "Corporate Treasurer",
+        "imagePath": "assets/images/comp_prof_img/treasurer.jpg",
+        "bio": "Bio",
+        "fullBio": "Full bio goes here"
+      },
+      {
+        "name": "Gieselle Cayabyab",
+        "tag": "HR",
+        "imagePath": "assets/images/comp_prof_img/hr.jpg",
+        "bio": "Bio",
+        "fullBio": "Full bio goes here"
+      },
+      {
+        "name": "Sherlene Aquino",
+        "tag": "Admin",
+        "imagePath": "assets/images/comp_prof_img/admin.jpg",
         "bio": "Bio",
         "fullBio": "Full bio goes here"
       },
     ];
 
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Center(
-      child: Wrap(
-        spacing: 30,
-        runSpacing: 40,
-        alignment: WrapAlignment.center,
-        children: executives
-            .map((data) => ExecutiveCard(
-                  data: data,
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 1400),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Determine columns: 4 for Desktop, 2 for Tablet, 1 for Mobile
+            int crossAxisCount = 4;
+            if (constraints.maxWidth < 600) {
+              crossAxisCount = 1;
+            } else if (constraints.maxWidth < 1100) {
+              crossAxisCount = 2;
+            }
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: executives.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: 30,
+                mainAxisSpacing: 40,
+                // Adjusted to 0.6 to prevent bottom overflow
+                childAspectRatio: 0.6,
+              ),
+              itemBuilder: (context, index) {
+                return ExecutiveCard(
+                  data: executives[index],
                   viewModel: viewModel,
-                ))
-            .toList(),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -77,8 +144,6 @@ class _ExecutiveCardState extends State<ExecutiveCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOutCubic,
-        width: 320,
-        // Card lifts up by 12 pixels on hover
         transform: Matrix4.identity()..translate(0, _isHovered ? -12 : 0),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -92,10 +157,8 @@ class _ExecutiveCardState extends State<ExecutiveCard> {
           ],
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image Section with AspectRatio
+            // Top Section: Image
             AspectRatio(
               aspectRatio: 1,
               child: Stack(
@@ -114,7 +177,6 @@ class _ExecutiveCardState extends State<ExecutiveCard> {
                       ),
                     ),
                   ),
-                  // Tag Overlay
                   Positioned(
                     top: 16,
                     left: 16,
@@ -139,76 +201,89 @@ class _ExecutiveCardState extends State<ExecutiveCard> {
               ),
             ),
 
-            // Content Section
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Name and Social Icons Row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.data['name']!,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFF1E293B),
-                          ),
-                        ),
-                      ),
-                      const Row(
-                        children: [
-                          Icon(Icons.link, size: 20, color: Color(0xFF94A3B8)),
-                          SizedBox(width: 12),
-                          Icon(Icons.email_outlined,
-                              size: 20, color: Color(0xFF94A3B8)),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  // Bio
-                  Text(
-                    widget.data['bio']!,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 14,
-                      color: const Color(0xFF64748B),
-                      height: 1.6,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  const Divider(height: 1, color: Color(0xFFF1F5F9)),
-                  const SizedBox(height: 20),
-                  // Footer Link
-                  InkWell(
-                    onTap: () =>
-                        widget.viewModel.showExecutiveBio(context, widget.data),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // Bottom Section: Content
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween, // Keeps footer at bottom
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Name and Bio grouping
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                widget.data['name']!,
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFF1E293B),
+                                ),
+                              ),
+                            ),
+                            const Row(
+                              children: [
+                                Icon(Icons.link,
+                                    size: 20, color: Color(0xFF94A3B8)),
+                                SizedBox(width: 12),
+                                Icon(Icons.email_outlined,
+                                    size: 20, color: Color(0xFF94A3B8)),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
                         Text(
-                          "PROFILE DETAILS",
+                          widget.data['bio']!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.plusJakartaSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                            color: apexBlue,
-                            letterSpacing: 1.2,
+                            fontSize: 14,
+                            color: const Color(0xFF64748B),
+                            height: 1.5,
                           ),
                         ),
-                        const Icon(Icons.arrow_forward_rounded,
-                            size: 18, color: apexBlue),
                       ],
                     ),
-                  ),
-                ],
+
+                    // Footer grouping
+                    Column(
+                      children: [
+                        const Divider(height: 1, color: Color(0xFFF1F5F9)),
+                        const SizedBox(height: 20),
+                        InkWell(
+                          onTap: () => widget.viewModel
+                              .showExecutiveBio(context, widget.data),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "PROFILE DETAILS",
+                                style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: apexBlue,
+                                  letterSpacing: 1.2,
+                                ),
+                              ),
+                              const Icon(Icons.arrow_forward_rounded,
+                                  size: 18, color: apexBlue),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
