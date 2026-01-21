@@ -21,7 +21,7 @@ class ExecutiveGrid extends StatelessWidget {
       {
         "name": "Alexander Florendo",
         "tag": "CEO",
-        "imagePath": "assets/images/comp_prof_img/ceo.jpg",
+        "imagePath": "assets/images/comp_prof_img/ceo.png",
         "bio": "Bio",
         "fullBio": "Full bio goes here",
         "fbLink": "https://www.facebook.com",
