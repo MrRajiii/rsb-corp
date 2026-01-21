@@ -15,70 +15,80 @@ class ExecutiveGrid extends StatelessWidget {
         "tag": "Chairman / Founder",
         "imagePath": "assets/images/comp_prof_img/chairman_founder.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/chimino.roglo",
       },
       {
         "name": "Alexander Florendo",
         "tag": "CEO",
         "imagePath": "assets/images/comp_prof_img/ceo.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com",
       },
       {
         "name": "Kim Aquino",
         "tag": "President / COO",
         "imagePath": "assets/images/comp_prof_img/president_coo.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/kim.aquino.9256",
       },
       {
         "name": "Nicole Ortega",
         "tag": "CFO",
         "imagePath": "assets/images/comp_prof_img/cfo.png",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/elocinagetro",
       },
       {
         "name": "Glydel Cayabyab",
         "tag": "Corporate Secretary",
         "imagePath": "assets/images/comp_prof_img/secretary.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/glycayabyab",
       },
       {
         "name": "Rajian Hero Castronuevo",
         "tag": "CTO",
         "imagePath": "assets/images/comp_prof_img/cto.png",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/raji.castronuevo.5",
       },
       {
         "name": "Leeal Bernandez",
         "tag": "Corporate Auditor",
         "imagePath": "assets/images/comp_prof_img/auditor.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/leealchann#",
       },
       {
         "name": "Jared Reclosado",
         "tag": "Corporate Treasurer",
         "imagePath": "assets/images/comp_prof_img/treasurer.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/m.thisisjvr#",
       },
       {
         "name": "Gieselle Cayabyab",
         "tag": "HR",
         "imagePath": "assets/images/comp_prof_img/hr.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/PrettyGieselle",
       },
       {
         "name": "Sherlene Aquino",
         "tag": "Admin",
         "imagePath": "assets/images/comp_prof_img/admin.jpg",
         "bio": "Bio",
-        "fullBio": "Full bio goes here"
+        "fullBio": "Full bio goes here",
+        "fbLink": "https://www.facebook.com/sherlene.corales#",
       },
     ];
 

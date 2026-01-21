@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rsbweb_v1/app/app.router.dart';
 import 'package:rsbweb_v1/ui/common/app_colors.dart';
 import 'package:rsbweb_v1/ui/views/home/widgets/common_footer.dart';
 import 'package:rsbweb_v1/ui/views/home/widgets/location_section.dart';
@@ -66,32 +67,46 @@ class _MobileDrawer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Ensure this asset path is correct
                   Image.asset(
                     'assets/images/company_logo.png',
                     height: 50,
                     fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.business,
+                        color: Colors.white,
+                        size: 50),
                   ),
                   const SizedBox(height: 10),
-                  Text("RSB Corp",
+                  const Text("RSB Corp",
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
           ),
+          // Scroll to Home
           _drawerTile(
               context,
               "Home",
               () => viewModel.scrollController.animateTo(0,
                   duration: const Duration(seconds: 1),
                   curve: Curves.easeInOut)),
+
           _drawerTile(context, "About",
               () => viewModel.scrollToSection(viewModel.aboutKey)),
+
           _drawerTile(context, "Contact",
               () => viewModel.scrollToSection(viewModel.contactKey)),
+          _drawerTile(
+            context,
+            "Company Profile",
+            () => viewModel.navigationService.navigateToCompanyProfileView(),
+          ),
+
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
+          const Padding(
+            padding: EdgeInsets.all(20.0),
             child: Text("© 2026 RSB Corp",
                 style: TextStyle(color: Colors.white24, fontSize: 12)),
           )
@@ -107,8 +122,8 @@ class _MobileDrawer extends StatelessWidget {
               color: Colors.white, fontWeight: FontWeight.w500)),
       trailing: const Icon(Icons.chevron_right, color: Colors.white24),
       onTap: () {
-        Navigator.pop(context); // Close drawer first
-        onTap(); // Then scroll
+        Navigator.pop(context); // 1. Close drawer first
+        onTap(); // 2. Perform action
       },
     );
   }

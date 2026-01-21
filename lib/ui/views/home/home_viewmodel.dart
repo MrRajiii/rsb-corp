@@ -9,6 +9,7 @@ class HomeViewModel extends BaseViewModel {
   final ScrollController scrollController = ScrollController();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
+  NavigationService get navigationService => _navigationService;
 
   // Form Controllers
   final TextEditingController nameController = TextEditingController();
