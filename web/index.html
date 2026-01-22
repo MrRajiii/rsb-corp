@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script>
+  // Strip fbclid from the URL so it doesn't break Flutter routing
+  (function() {
+    var url = new URL(window.location.href);
+    if (url.searchParams.has('fbclid')) {
+      url.searchParams.delete('fbclid');
+      window.history.replaceState({}, '', url.pathname + url.search);
+    }
+  })();
+</script>
   <base href="/">
 
   <meta charset="UTF-8">
