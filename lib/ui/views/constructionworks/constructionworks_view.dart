@@ -26,84 +26,98 @@ class ConstructionWorksView extends StackedView<ConstructionWorksViewModel> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
-        // Use the new ViewModel function
         viewModel.handleBack(Navigator.of(context).canPop());
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: TextButton.icon(
-              onPressed: () {
-                // Use the new ViewModel function here too
-                viewModel.handleBack(Navigator.of(context).canPop());
-              },
-              icon: const Icon(Icons.arrow_back,
-                  size: 20, color: Color(0xFF64748B)),
-              label: Text(
-                "Back",
-                style: GoogleFonts.plusJakartaSans(
-                  color: const Color(0xFF64748B),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 20 : width * 0.1,
-            vertical: 60,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        // Removed AppBar to fix alignment
+        body: SafeArea(
+          child: Stack(
             children: [
-              Text(
-                "BEHIND THE SCENES",
-                style: GoogleFonts.plusJakartaSans(
-                  color: const Color(0xFF2563EB),
-                  fontWeight: FontWeight.w800,
-                  fontSize: 12,
-                  letterSpacing: 1.2,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "Construction Works",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: isMobile ? 36 : 48,
-                  fontWeight: FontWeight.w800,
-                  color: const Color(0xFF0F172A),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // ... Rest of your gallery code remains the same
-              MasonryGridView.count(
-                crossAxisCount: isMobile ? 2 : 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: constructionImages.length,
-                itemBuilder: (context, index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      constructionImages[index],
-                      fit: BoxFit.cover,
+              // 1. MAIN SCROLLABLE CONTENT
+              SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 20 : width * 0.1,
+                  vertical: 0, // Vertical handled by the Column and Spacer
+                ).copyWith(top: 80), // Space for the sticky button
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 40),
+                    Text(
+                      "BEHIND THE SCENES",
+                      style: GoogleFonts.plusJakartaSans(
+                        color: const Color(0xFF2563EB),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 12,
+                        letterSpacing: 1.2,
+                      ),
                     ),
-                  );
-                },
+                    const SizedBox(height: 16),
+                    Text(
+                      "Construction Works",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: isMobile ? 36 : 48,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF0F172A),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    MasonryGridView.count(
+                      crossAxisCount: isMobile ? 2 : 3,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: constructionImages.length,
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.asset(
+                            constructionImages[index],
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 80),
+                  ],
+                ),
               ),
-              const SizedBox(height: 80),
+
+              // 2. STICKY BACK BUTTON (Aligned exactly like Finished Projects)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: Colors.white.withOpacity(0.9),
+                  padding:
+                      const EdgeInsets.only(left: 8.0, top: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      onPressed: () {
+                        viewModel.handleBack(Navigator.of(context).canPop());
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
+                      label: Text(
+                        "Back",
+                        style: GoogleFonts.plusJakartaSans(
+                          color: const Color(0xFF64748B),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

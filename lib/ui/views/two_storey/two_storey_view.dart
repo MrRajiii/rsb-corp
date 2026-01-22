@@ -12,68 +12,88 @@ class TwoStoreyView extends StackedView<TwoStoreyViewModel> {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width < 1100;
 
-    // 1. Wrap in PopScope to intercept browser/gesture back actions
     return PopScope(
-      canPop: false, // Prevent default pop behavior
+      canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        // Trigger the safe navigation logic from ViewModel
         viewModel.handleBack(Navigator.of(context).canPop());
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: TextButton.icon(
-              onPressed: () {
-                // 2. Use the same safe logic for the UI Back Button
-                viewModel.handleBack(Navigator.of(context).canPop());
-              },
-              icon: const Icon(Icons.arrow_back,
-                  size: 20, color: Color(0xFF64748B)),
-              label: Text(
-                "Back",
-                style: GoogleFonts.plusJakartaSans(
-                  color: const Color(0xFF64748B),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 24 : width * 0.08, vertical: 40),
-          child: Flex(
-            direction: isMobile ? Axis.vertical : Axis.horizontal,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        // REMOVED: appBar property is gone to allow for custom sticky alignment
+        body: SafeArea(
+          child: Stack(
             children: [
-              Expanded(
-                flex: isMobile ? 0 : 2,
-                child: Column(
+              // 1. MAIN SCROLLABLE CONTENT
+              SingleChildScrollView(
+                // Added top padding (80) so content starts below the back button
+                padding: EdgeInsets.only(
+                  left: isMobile ? 24 : width * 0.08,
+                  right: isMobile ? 24 : width * 0.08,
+                  top: 80,
+                  bottom: 40,
+                ),
+                child: Flex(
+                  direction: isMobile ? Axis.vertical : Axis.horizontal,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _ProjectHeader(),
-                    const SizedBox(height: 32),
-                    _PriceInquiryCard(viewModel: viewModel),
-                    const SizedBox(height: 48),
-                    const _PropertyFeatures(),
-                    const SizedBox(height: 48),
-                    const _LocationSection(),
+                    Expanded(
+                      flex: isMobile ? 0 : 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const _ProjectHeader(),
+                          const SizedBox(height: 32),
+                          _PriceInquiryCard(viewModel: viewModel),
+                          const SizedBox(height: 48),
+                          const _PropertyFeatures(),
+                          const SizedBox(height: 48),
+                          const _LocationSection(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                        width: isMobile ? 0 : 80, height: isMobile ? 60 : 0),
+                    Expanded(
+                      flex: isMobile ? 0 : 3,
+                      child: const _ProjectGallery(),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(width: isMobile ? 0 : 80, height: isMobile ? 60 : 0),
-              Expanded(
-                flex: isMobile ? 0 : 3,
-                child: const _ProjectGallery(),
+
+              // 2. STICKY BACK BUTTON (Matching FinishedProjectsView exactly)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  // Using white with slight opacity for a modern sticky feel
+                  color: Colors.white.withOpacity(0.9),
+                  padding:
+                      const EdgeInsets.only(left: 8.0, top: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      onPressed: () {
+                        viewModel.handleBack(Navigator.of(context).canPop());
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
+                      label: Text(
+                        "Back",
+                        style: GoogleFonts.plusJakartaSans(
+                          color: const Color(0xFF64748B),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

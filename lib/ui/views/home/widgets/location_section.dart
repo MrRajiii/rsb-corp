@@ -7,7 +7,7 @@ class LocationSection extends StatelessWidget {
 
   Future<void> _openGoogleMaps() async {
     const String googleMapsUrl =
-        "https://www.google.com/maps/search/?api=1&query=Magsaysay+Private+Rd+Baguio+City";
+        "https://www.google.com/maps/place/Kumon+Lower+Magsaysay+(Baguio)+Center/@16.4234314,120.5908943,17z/data=!3m1!4b1!4m6!3m5!1s0x3391a330f0078477:0x9f657523fe3b8c86!8m2!3d16.4234263!4d120.5934692!16s%2Fg%2F11v9kmkm9d?entry=ttu&g_ep=EgoyMDI2MDExOS4wIKXMDSoASAFQAw%3D%3D";
     final Uri url = Uri.parse(googleMapsUrl);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');

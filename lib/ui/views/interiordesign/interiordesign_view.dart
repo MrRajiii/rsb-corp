@@ -16,7 +16,6 @@ class InteriorDesignView extends StackedView<InteriorDesignViewModel> {
     double width = MediaQuery.of(context).size.width;
     bool isMobile = width < 900;
 
-    // List of your local Interior Design images
     final List<String> interiorImages = [
       'assets/images/interiordesigns/d1.jpg',
       'assets/images/interiordesigns/d2.jpg',
@@ -36,115 +35,127 @@ class InteriorDesignView extends StackedView<InteriorDesignViewModel> {
     ];
 
     return PopScope(
-      canPop: false, // Intercept system back gestures/browser back
+      canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        // Handle navigation safely
         viewModel.handleBack(Navigator.of(context).canPop());
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: TextButton.icon(
-              onPressed: () {
-                // Manual UI back button
-                viewModel.handleBack(Navigator.of(context).canPop());
-              },
-              icon: const Icon(Icons.arrow_back,
-                  size: 20, color: Color(0xFF64748B)),
-              label: Text(
-                "Back",
-                style: GoogleFonts.plusJakartaSans(
-                  color: const Color(0xFF64748B),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 20 : width * 0.1,
-            vertical: 60,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        // AppBar removed to allow for pixel-perfect sticky back button
+        body: SafeArea(
+          child: Stack(
             children: [
-              // --- HEADER SECTION ---
-              Text(
-                "OUR DESIGNS",
-                style: GoogleFonts.plusJakartaSans(
-                  color: const Color(0xFF2563EB),
-                  fontWeight: FontWeight.w800,
-                  fontSize: 12,
-                  letterSpacing: 1.2,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "Interior Designs",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: isMobile ? 36 : 48,
-                  fontWeight: FontWeight.w800,
-                  color: const Color(0xFF0F172A),
-                ),
-              ),
-              const SizedBox(height: 16),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 750),
-                child: Text(
-                  "Explore our curated collection of interior styles. From minimalist modern to luxury classic, we offer full customization of finishes, lighting, and cabinetry to match your personal taste.",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 18,
-                    color: const Color(0xFF64748B),
-                    height: 1.6,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 64),
-
-              // --- MASONRY GALLERY SECTION ---
-              MasonryGridView.count(
-                crossAxisCount: isMobile ? 2 : 3,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 20,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: interiorImages.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () => viewModel.showFullScreenImage(
-                        context, interiorImages[index]),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        interiorImages[index],
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8FAFC),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: const Icon(Icons.format_paint_outlined,
-                              color: Colors.grey),
+              // 1. MAIN SCROLLABLE CONTENT
+              SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 20 : width * 0.1,
+                ).copyWith(top: 80, bottom: 60), // Space for sticky button
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 20),
+                    Text(
+                      "OUR DESIGNS",
+                      style: GoogleFonts.plusJakartaSans(
+                        color: const Color(0xFF2563EB),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 12,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      "Interior Designs",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: isMobile ? 36 : 48,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF0F172A),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 750),
+                      child: Text(
+                        "Explore our curated collection of interior styles. From minimalist modern to luxury classic, we offer full customization of finishes, lighting, and cabinetry to match your personal taste.",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 18,
+                          color: const Color(0xFF64748B),
+                          height: 1.6,
                         ),
                       ),
                     ),
-                  );
-                },
+                    const SizedBox(height: 64),
+                    MasonryGridView.count(
+                      crossAxisCount: isMobile ? 2 : 3,
+                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: interiorImages.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () => viewModel.showFullScreenImage(
+                              context, interiorImages[index]),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.asset(
+                              interiorImages[index],
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFF8FAFC),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: const Icon(Icons.format_paint_outlined,
+                                    color: Colors.grey),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 100),
+                  ],
+                ),
               ),
-              const SizedBox(height: 100),
+
+              // 2. STICKY BACK BUTTON (Consistent across all pages)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: Colors.white.withOpacity(0.9),
+                  padding:
+                      const EdgeInsets.only(left: 8.0, top: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      onPressed: () {
+                        viewModel.handleBack(Navigator.of(context).canPop());
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
+                      label: Text(
+                        "Back",
+                        style: GoogleFonts.plusJakartaSans(
+                          color: const Color(0xFF64748B),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

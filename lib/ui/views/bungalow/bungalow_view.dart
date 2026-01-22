@@ -14,67 +14,85 @@ class BungalowView extends StackedView<BungalowViewModel> {
 
     // 1. Wrap the entire Scaffold in PopScope
     return PopScope(
-      canPop: false, // Prevents default browser back behavior
+      canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-
-        // 2. Trigger the safe navigation logic you wrote in the ViewModel
         viewModel.handleBack(Navigator.of(context).canPop());
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          automaticallyImplyLeading: false,
-          titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: TextButton.icon(
-              onPressed: () {
-                // 3. Use the handleBack logic here as well
-                viewModel.handleBack(Navigator.of(context).canPop());
-              },
-              icon: const Icon(Icons.arrow_back,
-                  size: 20, color: Color(0xFF64748B)),
-              label: Text(
-                "Back",
-                style: GoogleFonts.plusJakartaSans(
-                  color: const Color(0xFF64748B),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 24 : width * 0.08, vertical: 40),
-          child: Flex(
-            direction: isMobile ? Axis.vertical : Axis.horizontal,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        // 1. REMOVE THE AppBar property entirely
+        body: SafeArea(
+          child: Stack(
             children: [
-              Expanded(
-                flex: isMobile ? 0 : 2,
-                child: Column(
+              // 2. MAIN CONTENT
+              SingleChildScrollView(
+                // Add top padding so content doesn't hide behind the sticky button
+                padding: EdgeInsets.only(
+                    left: isMobile ? 24 : width * 0.08,
+                    right: isMobile ? 24 : width * 0.08,
+                    top: 80, // Space for the floating back button
+                    bottom: 40),
+                child: Flex(
+                  direction: isMobile ? Axis.vertical : Axis.horizontal,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const _ProjectHeader(),
-                    const SizedBox(height: 32),
-                    _PriceInquiryCard(viewModel: viewModel),
-                    const SizedBox(height: 48),
-                    const _PropertyFeatures(),
-                    const SizedBox(height: 48),
-                    const _LocationSection(),
+                    Expanded(
+                      flex: isMobile ? 0 : 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const _ProjectHeader(),
+                          const SizedBox(height: 32),
+                          _PriceInquiryCard(viewModel: viewModel),
+                          const SizedBox(height: 48),
+                          const _PropertyFeatures(),
+                          const SizedBox(height: 48),
+                          const _LocationSection(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                        width: isMobile ? 0 : 80, height: isMobile ? 60 : 0),
+                    Expanded(
+                      flex: isMobile ? 0 : 3,
+                      child: const _ProjectGallery(),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(width: isMobile ? 0 : 80, height: isMobile ? 60 : 0),
-              Expanded(
-                flex: isMobile ? 0 : 3,
-                child: const _ProjectGallery(),
+
+              // 3. STICKY BACK BUTTON (Matching FinishedProjectsView exactly)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: Colors.white.withOpacity(0.9), // Glass effect
+                  padding:
+                      const EdgeInsets.only(left: 8.0, top: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      onPressed: () {
+                        viewModel.handleBack(Navigator.of(context).canPop());
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
+                      label: Text(
+                        "Back",
+                        style: GoogleFonts.plusJakartaSans(
+                          color: const Color(0xFF64748B),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
