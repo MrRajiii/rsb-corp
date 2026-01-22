@@ -188,7 +188,7 @@ class _ExecutiveCardState extends State<ExecutiveCard> {
                     ),
                   ),
                   Positioned(
-                    top: 16,
+                    bottom: 16,
                     left: 16,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
